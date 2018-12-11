@@ -1,27 +1,31 @@
 {
-  "name": "api-personality_test",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
-  "dependencies": {
-    "express": "^4.16.4"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/RafaelSSouzaADS/api-personality_test.git"
-  },
-  "keywords": [
-    "Node",
-    "Restful"
-  ],
-  "author": "Rafael Silva de Souza",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/RafaelSSouzaADS/api-personality_test/issues"
-  },
-  "homepage": "https://github.com/RafaelSSouzaADS/api-personality_test#readme"
+	"name": "api-personality_test",
+	"version": "1.0.0",
+	"description": "",
+	"main": "app.js",
+	"dependencies": {
+		"express": "^4.16.4",
+		"mongoose": "^5.3.15"
+	},
+	"devDependencies": {
+		"nodemon": "^1.18.8"
+	},
+	"scripts": {
+		"dev": "nodemon ./src/server.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/RafaelSSouzaADS/api-personality_test.git"
+	},
+	"keywords": [
+		"Node",
+		"Restful"
+	],
+	"author": "Rafael Silva de Souza",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/RafaelSSouzaADS/api-personality_test/issues"
+	},
+	"homepage": "https://github.com/RafaelSSouzaADS/api-personality_test#readme"
 }
