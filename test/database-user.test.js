@@ -71,7 +71,7 @@ describe('User CRUD tests in the database', function () {
 });
 
 after(function (done) {
-    //database.dropDatabase().then(() => {
-    database.close(done());
-    //});
+    database.dropDatabase().then(() => {
+        database.close(done());
+    });
 });
