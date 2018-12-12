@@ -27,11 +27,6 @@ function createUser(req, res, next) {
 function readUser(req, res, next) {
     const id = req.params.id;
 
-    if (!mongoose.Types.ObjectId.isValid(id))
-        return res.status(400).json({
-            message: "invalid id"
-        });
-
     User.findById(id)
         .then(function (user) {
             if (user) {
@@ -80,11 +75,6 @@ function listUser(req, res, next) {
 function updateUser(req, res, next) {
     const id = req.params.id;
 
-    if (!mongoose.Types.ObjectId.isValid(id))
-        return res.status(400).json({
-            message: "invalid id"
-        });
-
     const user = {
         name: req.body.name,
         email: req.body.email,
@@ -115,11 +105,6 @@ function updateUser(req, res, next) {
 
 function deleteUser(req, res, next) {
     const id = req.params.id;
-
-    if (!mongoose.Types.ObjectId.isValid(id))
-        return res.status(400).json({
-            message: "invalid id"
-        });
 
     User.findByIdAndRemove(id)
         .then(function (user) {
