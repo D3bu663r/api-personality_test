@@ -5,11 +5,18 @@ const User = require('../models/user');
  * @swagger
  * /users:
  *   post:
- *     summary: cria um novo usuário
+ *     summary: Criar um novo usuário
+ *     parameters:
+ *       - in: body
+ *         name: user
+ *         required: true
+ *         description: Usuário
+ *         schema:
+ *           $ref: '#/definitions/User'
  *     tags:
  *       - users
  *     security:
- *       - jwt: []
+ *       - Bearer: []
  *     responses:
  *       200:
  *         description: usuário
@@ -43,25 +50,25 @@ function createUser(req, res, next) {
  * @swagger
  * /users/{id}:
  *   get:
- *     summary: busca um usuário pelo id
+ *     summary: Buscar um usuário pelo id
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         type: string
- *         format: uuid
- *         description: The user ID
+ *         minlength: 24
+ *         description: O id do usuário
  *     tags:
  *       - users
  *     security:
- *       - jwt: []
+ *       - Bearer: []
  *     responses:
  *       200:
- *         description: usuário
+ *         description: Usuário
  *       400:
- *         description: usuário
+ *         description: Erro de sintaxe na solicitação.
  *       404:
- *         description: usuário
+ *         description: Usuário não encontrado
  *         schema:
  *           $ref: '#/definitions/User'
  */
@@ -93,34 +100,31 @@ function readUser(req, res, next) {
  * @swagger
  * /users:
  *   get:
- *     summary: lista todos os usuários
+ *     summary: Listar todos os usuários
  *     tags:
  *       - users
  *     security:
- *       - jwt: []
+ *       - Bearer: []
  *     responses:
  *       200:
- *         description: usuário
+ *         description: Usuário
+ *       400:
+ *         description: Erro de sintaxe na solicitação.
+ *       404:
+ *         description: Usuário não encontrado
  *         schema:
  *           $ref: '#/definitions/User'
  */
 function listUser(req, res, next) {
     User.find({})
         .then(function (users) {
-            if (users) {
-                res.status(200).json(users.map(function to(user) {
-                    return {
-                        id: user._id,
-                        name: user.name,
-                        email: user.email
-                    }
-                }));
-            }
-            else {
-                res.status(404).json({
-                    message: "not found"
-                });
-            }
+            res.status(200).json(users.map(function to(user) {
+                return {
+                    id: user._id,
+                    name: user.name,
+                    email: user.email
+                }
+            }));
         }).catch(function (err) {
             res.status(400).json({
                 message: err.errmsg
@@ -132,21 +136,25 @@ function listUser(req, res, next) {
  * @swagger
  * /users/{id}:
  *   put:
- *     summary: atualiza um usuário pelo id
+ *     summary: Atualizar um usuário pelo id
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         type: string
- *         format: uuid
- *         description: The user ID
+ *         minlength: 24
+ *         description: O id do usuário
  *     tags:
  *       - users
  *     security:
- *       - jwt: []
+ *       - Bearer: []
  *     responses:
  *       200:
- *         description: usuário
+ *         description: Usuário
+ *       400:
+ *         description: Erro de sintaxe na solicitação.
+ *       404:
+ *         description: Usuário não encontrado
  *         schema:
  *           $ref: '#/definitions/User'
  */
@@ -185,21 +193,25 @@ function updateUser(req, res, next) {
  * @swagger
  * /users/{id}:
  *   delete:
- *     summary: deleta um usuário pelo id
+ *     summary: Deletar um usuário pelo id
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         type: string
- *         format: uuid
- *         description: The user ID
+ *         minlength: 24
+ *         description: O id do usuário
  *     tags:
  *       - users
  *     security:
- *       - jwt: []
+ *       - Bearer: []
  *     responses:
  *       200:
- *         description: usuário
+ *         description: Usuário
+ *       400:
+ *         description: Erro de sintaxe na solicitação.
+ *       404:
+ *         description: Usuário não encontrado
  *         schema:
  *           $ref: '#/definitions/User'
  */
