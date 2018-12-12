@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const configs = require('../configs');
 const User = require('../models/user');
 
 /**
@@ -31,7 +32,7 @@ function login(req, res, next) {
                     _id: user._id,
                     name: user.name,
                     email: user.email
-                }, 'LABS')
+                }, configs.secret_key)
             });
         })
         .catch(function (err) {

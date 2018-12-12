@@ -99,6 +99,8 @@ function readUser(req, res, next) {
  *     summary: Listar todos os usuários
  *     tags:
  *       - users
+ *     security:
+ *       - Bearer: []
  *     responses:
  *       200:
  *         description: Usuário

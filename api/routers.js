@@ -10,7 +10,7 @@ const userController = require('./controllers/user');
 
 router.post('/users', userController.createUser);
 router.get('/users/:id', validator.isValidId, userController.readUser);
-router.get('/users', userController.listUser);
+router.get('/users', auth.isAuthenticated('user'), userController.listUser);
 router.put('/users/:id', validator.isValidId, userController.updateUser);
 router.delete('/users/:id', validator.isValidId, userController.deleteUser);
 
