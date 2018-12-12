@@ -15,8 +15,6 @@ const User = require('../models/user');
  *           $ref: '#/definitions/User'
  *     tags:
  *       - auth
- *     security:
- *       - Bearer: []
  *     responses:
  *       200:
  *         description: usuário

@@ -15,8 +15,6 @@ const User = require('../models/user');
  *           $ref: '#/definitions/User'
  *     tags:
  *       - users
- *     security:
- *       - Bearer: []
  *     responses:
  *       200:
  *         description: usuário
@@ -60,8 +58,6 @@ function createUser(req, res, next) {
  *         description: O id do usuário
  *     tags:
  *       - users
- *     security:
- *       - Bearer: []
  *     responses:
  *       200:
  *         description: Usuário
@@ -103,8 +99,6 @@ function readUser(req, res, next) {
  *     summary: Listar todos os usuários
  *     tags:
  *       - users
- *     security:
- *       - Bearer: []
  *     responses:
  *       200:
  *         description: Usuário
@@ -146,8 +140,6 @@ function listUser(req, res, next) {
  *         description: O id do usuário
  *     tags:
  *       - users
- *     security:
- *       - Bearer: []
  *     responses:
  *       200:
  *         description: Usuário
@@ -203,8 +195,6 @@ function updateUser(req, res, next) {
  *         description: O id do usuário
  *     tags:
  *       - users
- *     security:
- *       - Bearer: []
  *     responses:
  *       200:
  *         description: Usuário
