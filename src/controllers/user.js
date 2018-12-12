@@ -1,17 +1,38 @@
 
-function signUp(req, res, next) {
+function createUser(req, res, next) {
     res.status(200).json({
         message: 'create user'
     });
 }
 
-function signIn(req, res, next) {
+function readUser(req, res, next) {
     res.status(200).json({
-        message: 'login user'
+        message: 'read user'
+    });
+}
+
+function listUser(req, res, next) {
+    res.status(200).json({
+        message: 'list users'
+    });
+}
+
+function updateUser(req, res, next) {
+    res.status(200).json({
+        message: 'update user'
+    });
+}
+
+function deleteUser(req, res, next) {
+    res.status(200).json({
+        message: 'delete user'
     });
 }
 
 module.exports = {
-    signUp,
-    signIn
+    createUser,
+    readUser,
+    listUser,
+    updateUser,
+    deleteUser
 }
