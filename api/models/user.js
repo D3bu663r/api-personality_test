@@ -1,6 +1,24 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
+/**
+ * @swagger
+ * definitions:
+ *   User:
+ *     type: object
+ *     required:
+ *       - email
+ *       - password
+ *     properties:
+ *       id:
+ *         type: number
+ *       name:
+ *         type: string
+ *       email:
+ *         type: string
+ *       password:
+ *         type: string
+ */
 const schema = new mongoose.Schema({
     _id: {
         type: mongoose.Schema.Types.ObjectId

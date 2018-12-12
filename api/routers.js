@@ -9,4 +9,8 @@ router.get('/users', userController.listUser);
 router.put('/users/:id', validator.isValidId, userController.updateUser);
 router.delete('/users/:id', validator.isValidId, userController.deleteUser);
 
+const swaggerController = require('./controllers/swagger');
+
+router.use('/docs', swaggerController.router);
+
 module.exports = router;

@@ -1,5 +1,5 @@
 const app = require('./app');
-const database = require('./database');
+const database = require('./api/database');
 
 database.then(function (connection) {
     console.log(`connected in ${connection.db.s.databaseName} database`);

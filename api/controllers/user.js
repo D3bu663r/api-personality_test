@@ -1,6 +1,21 @@
 const mongoose = require('mongoose');
 const User = require('../models/user');
 
+/**
+ * @swagger
+ * /users:
+ *   post:
+ *     summary: cria um novo usuário
+ *     tags:
+ *       - users
+ *     security:
+ *       - jwt: []
+ *     responses:
+ *       200:
+ *         description: usuário
+ *         schema:
+ *           $ref: '#/definitions/User'
+ */
 function createUser(req, res, next) {
     const user = new User({
         _id: new mongoose.Types.ObjectId(),
@@ -24,6 +39,32 @@ function createUser(req, res, next) {
         });
 }
 
+/**
+ * @swagger
+ * /users/{id}:
+ *   get:
+ *     summary: busca um usuário pelo id
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         type: string
+ *         format: uuid
+ *         description: The user ID
+ *     tags:
+ *       - users
+ *     security:
+ *       - jwt: []
+ *     responses:
+ *       200:
+ *         description: usuário
+ *       400:
+ *         description: usuário
+ *       404:
+ *         description: usuário
+ *         schema:
+ *           $ref: '#/definitions/User'
+ */
 function readUser(req, res, next) {
     const id = req.params.id;
 
@@ -48,6 +89,21 @@ function readUser(req, res, next) {
         });
 }
 
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: lista todos os usuários
+ *     tags:
+ *       - users
+ *     security:
+ *       - jwt: []
+ *     responses:
+ *       200:
+ *         description: usuário
+ *         schema:
+ *           $ref: '#/definitions/User'
+ */
 function listUser(req, res, next) {
     User.find({})
         .then(function (users) {
@@ -72,6 +128,28 @@ function listUser(req, res, next) {
         });
 }
 
+/**
+ * @swagger
+ * /users/{id}:
+ *   put:
+ *     summary: atualiza um usuário pelo id
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         type: string
+ *         format: uuid
+ *         description: The user ID
+ *     tags:
+ *       - users
+ *     security:
+ *       - jwt: []
+ *     responses:
+ *       200:
+ *         description: usuário
+ *         schema:
+ *           $ref: '#/definitions/User'
+ */
 function updateUser(req, res, next) {
     const id = req.params.id;
 
@@ -103,6 +181,28 @@ function updateUser(req, res, next) {
         });
 }
 
+/**
+ * @swagger
+ * /users/{id}:
+ *   delete:
+ *     summary: deleta um usuário pelo id
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         type: string
+ *         format: uuid
+ *         description: The user ID
+ *     tags:
+ *       - users
+ *     security:
+ *       - jwt: []
+ *     responses:
+ *       200:
+ *         description: usuário
+ *         schema:
+ *           $ref: '#/definitions/User'
+ */
 function deleteUser(req, res, next) {
     const id = req.params.id;
 

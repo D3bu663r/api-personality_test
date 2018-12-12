@@ -1,5 +1,5 @@
 const express = require('express');
-const routers = require('./routers');
+const routers = require('./api/routers');
 
 const app = express();
 
