@@ -48,6 +48,10 @@ const schema = new mongoose.Schema({
     }
 });
 
+schema.methods.comparePassword = function (password) {
+    return bcrypt.compareSync(password, this.password);
+}
+
 function hash(user, next) {
     bcrypt.genSalt(10, (err, salt) => {
         if (err) return next(err);

@@ -24,7 +24,7 @@ const options = {
             }
         }
     },
-    apis: ['./api/controllers/user.js', './api/models/user.js']
+    apis: ['./api/controllers/*.js', './api/models/*.js']
 }
 
 const swaggerSpec = swaggerJSDoc(options)
