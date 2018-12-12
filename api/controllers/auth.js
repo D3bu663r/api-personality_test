@@ -6,7 +6,7 @@ const User = require('../models/user');
  * @swagger
  * /auth/login:
  *   post:
- *     summary: Criar um novo usuário
+ *     summary: Criar um novo token para o usuário
  *     parameters:
  *       - in: body
  *         name: user
