@@ -17,6 +17,8 @@ const NotFound = require('../errors/not_found');
  *           $ref: '#/definitions/Category'
  *     tags:
  *       - categorys
+ *     security:
+ *       - Bearer: []
  *     responses:
  *       200:
  *         description: Categoria
@@ -53,6 +55,8 @@ function createCategory(req, res, next) {
  *         description: O id do categoria
  *     tags:
  *       - categorys
+ *     security:
+ *       - Bearer: []
  *     responses:
  *       200:
  *         description: Categoria
@@ -125,6 +129,8 @@ function listCategory(req, res, next) {
  *         description: O id da categoria
  *     tags:
  *       - categorys
+ *     security:
+ *       - Bearer: []
  *     responses:
  *       200:
  *         description: Categoria
@@ -171,6 +177,8 @@ function updateCategory(req, res, next) {
  *         description: O id da categoria
  *     tags:
  *       - categorys
+ *     security:
+ *       - Bearer: []
  *     responses:
  *       200:
  *         description: Categoria
