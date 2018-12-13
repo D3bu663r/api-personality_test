@@ -1,5 +1,11 @@
 {
     "env": {
-        "CONFIGS": "production"
+        "NODE_ENV": "production",
+        "SECRET_KEY": "cHJvZHVjdGlvbg==",
+        "DB_USER": "root",
+        "DB_PASSWORD": "root",
+        "DB_URL": "cluster0-shard-00-00-imp7h.mongodb.net:27017,cluster0-shard-00-01-imp7h.mongodb.net:27017,cluster0-shard-00-02-imp7h.mongodb.net:27017",
+        "DB_NAME": "personality_test",
+        "DB_OPTIONS": "ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true"
     }
 }

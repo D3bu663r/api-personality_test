@@ -1,12 +1,5 @@
 const configs = {
-    production: {
-        database_connection: 'mongodb://root:root@cluster0-shard-00-00-imp7h.mongodb.net:27017,cluster0-shard-00-01-imp7h.mongodb.net:27017,cluster0-shard-00-02-imp7h.mongodb.net:27017/personality_test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true',
-        secret_key: 'cHJvZHVjdGlvbg=='
-    },
-    default: {
-        database_connection: 'mongodb://root:root@cluster0-shard-00-00-imp7h.mongodb.net:27017,cluster0-shard-00-01-imp7h.mongodb.net:27017,cluster0-shard-00-02-imp7h.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true',
-        secret_key: 'dGVzdA=='
-    }
+    database_connection: `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_URL}/${process.env.DB_NAME}?${process.env.DB_OPTIONS}`,
+    secret_key: process.env.SECRET_KEY
 }
-
-module.exports = configs[process.env.CONFIGS] || configs.default;
+module.exports = configs;
