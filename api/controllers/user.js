@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
+const status = require('http-status');
 const User = require('../models/user');
+const NotFound = require('../errors/not_found');
 
 /**
  * @swagger
@@ -31,17 +33,13 @@ function createUser(req, res, next) {
 
     user.save()
         .then(function (user) {
-            res.status(201).json({
+            res.status(status.CREATED).json({
                 id: user._id,
                 name: user.name,
                 email: user.email
             });
         })
-        .catch(function (err) {
-            res.status(400).json({
-                message: err.errmsg
-            });
-        });
+        .catch(next);
 }
 
 /**
@@ -74,22 +72,16 @@ function readUser(req, res, next) {
     User.findById(id)
         .then(function (user) {
             if (user) {
-                res.status(200).json({
+                res.status(status.OK).json({
                     id: user._id,
                     name: user.name,
                     email: user.email
                 });
             }
             else {
-                res.status(404).json({
-                    message: "not found"
-                });
+                next(new NotFound("Usuário não encontrado"));
             }
-        }).catch(function (err) {
-            res.status(400).json({
-                message: err.errmsg
-            });
-        });
+        }).catch(next);
 }
 
 /**
@@ -114,18 +106,14 @@ function readUser(req, res, next) {
 function listUser(req, res, next) {
     User.find({})
         .then(function (users) {
-            res.status(200).json(users.map(function to(user) {
+            res.status(status.OK).json(users.map(function to(user) {
                 return {
                     id: user._id,
                     name: user.name,
                     email: user.email
                 }
             }));
-        }).catch(function (err) {
-            res.status(400).json({
-                message: err.errmsg
-            });
-        });
+        }).catch(next);
 }
 
 /**
@@ -164,23 +152,17 @@ function updateUser(req, res, next) {
     User.findByIdAndUpdate(id, user, { new: true })
         .then(function (user) {
             if (user) {
-                res.status(200).json({
+                res.status(status.OK).json({
                     id: user._id,
                     name: user.name,
                     email: user.email
                 });
             }
             else {
-                res.status(404).json({
-                    message: "not found"
-                });
+                next(new NotFound("Usuário não encontrado"));
             }
         })
-        .catch(function (err) {
-            res.status(400).json({
-                message: err.errmsg
-            });
-        });
+        .catch(next);
 }
 
 /**
@@ -220,16 +202,10 @@ function deleteUser(req, res, next) {
                 });
             }
             else {
-                res.status(404).json({
-                    message: "not found"
-                });
+                next(new NotFound("Usuário não encontrado"));
             }
         })
-        .catch(function (err) {
-            res.status(400).json({
-                message: err.errmsg
-            });
-        });
+        .catch(next);
 }
 
 module.exports = {

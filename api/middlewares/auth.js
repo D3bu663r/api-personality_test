@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const configs = require('../configs');
 const User = require('../models/user');
+const BadRequest = require('../errors/bad_request');
+const Unauthorized = require('../errors/unauthorized');
 
 function isAuthenticated(roles = []) {
     if (typeof roles === 'string') roles = [roles];
@@ -9,26 +11,22 @@ function isAuthenticated(roles = []) {
         if (authorization) {
             let values = authorization.split(' ');
 
-            if (values.length !== 2) return res.status(400).json({ message: "Token inválido" });
+            if (values.length !== 2) return next(new BadRequest('Token inválido'));
 
             let type = values[0];
             let token = values[1];
 
-            if (!type.toLowerCase().includes('bearer')) return res.status(400).json({ message: "Tipo do token inválido" });
+            if (!type.toLowerCase().includes('bearer')) return next(new BadRequest('Tipo do token inválido'));
 
             const user = jwt.verify(token, configs.secret_key);
 
             User.findById(user._id).then(function (user) {
-                if (!user || !roles.includes(user.role)) return res.status(403).json({ message: "Usuário não autorizado" });
+                if (!user || !roles.includes(user.role)) return next(new Unauthorized('Usuário não autorizado'));
                 next();
-            }).catch(function (err) {
-                res.status(400).json({
-                    message: err.errmsg
-                });
-            });
+            }).catch(next);
 
         } else {
-            return res.status(403).json({ message: "Usuário não autorizado" });
+            return next(new Unauthorized('Usuário não autorizado'));
         }
     }
 }

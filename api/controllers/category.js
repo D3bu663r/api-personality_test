@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
+const status = require('http-status');
 const Category = require('../models/category');
+const NotFound = require('../errors/not_found');
 
 /**
  * @swagger
@@ -29,16 +31,12 @@ function createCategory(req, res, next) {
 
     category.save()
         .then(function (category) {
-            res.status(201).json({
+            res.status(status.CREATED).json({
                 id: category._id,
                 name: category.name
             });
         })
-        .catch(function (err) {
-            res.status(400).json({
-                message: err.errmsg
-            });
-        });
+        .catch(next);
 }
 
 /**
@@ -71,21 +69,15 @@ function readCategory(req, res, next) {
     Category.findById(id)
         .then(function (category) {
             if (category) {
-                res.status(200).json({
+                res.status(status.OK).json({
                     id: category._id,
                     name: category.name
                 });
             }
             else {
-                res.status(404).json({
-                    message: "not found"
-                });
+                next(new NotFound("Categoria não encontrada"));
             }
-        }).catch(function (err) {
-            res.status(400).json({
-                message: err.errmsg
-            });
-        });
+        }).catch(next);
 }
 
 /**
@@ -110,17 +102,13 @@ function readCategory(req, res, next) {
 function listCategory(req, res, next) {
     Category.find({})
         .then(function (categorys) {
-            res.status(200).json(categorys.map(function to(category) {
+            res.status(status.OK).json(categorys.map(function to(category) {
                 return {
                     id: category._id,
                     name: category.name
                 }
             }));
-        }).catch(function (err) {
-            res.status(400).json({
-                message: err.errmsg
-            });
-        });
+        }).catch(next);
 }
 
 /**
@@ -157,22 +145,16 @@ function updateCategory(req, res, next) {
     Category.findByIdAndUpdate(id, category, { new: true })
         .then(function (category) {
             if (category) {
-                res.status(200).json({
+                res.status(status.OK).json({
                     id: category._id,
                     name: category.name
                 });
             }
             else {
-                res.status(404).json({
-                    message: "not found"
-                });
+                next(new NotFound("Categoria não encontrada"));
             }
         })
-        .catch(function (err) {
-            res.status(400).json({
-                message: err.errmsg
-            });
-        });
+        .catch(next);
 }
 
 /**
@@ -205,22 +187,16 @@ function deleteCategory(req, res, next) {
     Category.findByIdAndRemove(id)
         .then(function (category) {
             if (category) {
-                res.status(200).json({
+                res.status(status.OK).json({
                     id: category._id,
                     name: category.name
                 });
             }
             else {
-                res.status(404).json({
-                    message: "not found"
-                });
+                next(new NotFound("Categoria não encontrada"));
             }
         })
-        .catch(function (err) {
-            res.status(400).json({
-                message: err.errmsg
-            });
-        });
+        .catch(next);
 }
 
 module.exports = {

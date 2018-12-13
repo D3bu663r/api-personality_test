@@ -1,6 +1,9 @@
 const jwt = require('jsonwebtoken');
+const status = require('http-status');
 const configs = require('../configs');
 const User = require('../models/user');
+const NotFound = require('../errors/not_found');
+const BadRequest = require('../errors/bad_request');
 
 /**
  * @swagger
@@ -18,16 +21,20 @@ const User = require('../models/user');
  *       - auth
  *     responses:
  *       200:
- *         description: usuário
+ *         description: Usuário
+ *       400:
+ *         description: Erro de sintaxe na solicitação.
+ *       404:
+ *         description: Usuário não encontrado
  *         schema:
  *           $ref: '#/definitions/User'
  */
 function login(req, res, next) {
     User.findOne({ email: req.body.email })
         .then(function (user) {
-            if (!user) return res.status(400).json({ message: "not found" });
-            if (!user.comparePassword(req.body.password)) return res.status(400).json({ message: "senha incorreta." });
-            return res.status(200).json({
+            if (!user) return next(new NotFound('usuário não encontrado'));
+            if (!user.comparePassword(req.body.password)) return next(new BadRequest('senha incorreta.'));
+            return res.status(status.OK).json({
                 token: jwt.sign({
                     _id: user._id,
                     name: user.name,
@@ -35,11 +42,7 @@ function login(req, res, next) {
                 }, configs.secret_key)
             });
         })
-        .catch(function (err) {
-            res.status(400).json({
-                message: err.errmsg
-            });
-        });
+        .catch(next);
 }
 
 module.exports = {
