@@ -40,7 +40,8 @@ const schema = {
             required: false,
             enum: ['admin', 'user']
         }
-    }
+    },
+    additionalProperties: false
 }
 
 module.exports = schema;

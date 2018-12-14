@@ -23,7 +23,8 @@ const schema = {
             type: 'string',
             required: true
         }
-    }
+    },
+    additionalProperties: false
 }
 
 module.exports = schema;
