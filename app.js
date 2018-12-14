@@ -1,12 +1,13 @@
 const express = require('express');
 const routers = require('./api/routers');
 const morgan = require('morgan');
+const winston = require('./api/winston');
 const cors = require('cors');
 const error_handler = require('./api/middlewares/error_handler');
 
 const app = express();
 
-app.use(morgan('dev'));
+app.use(morgan('tiny', { stream: winston.stream }));
 
 app.use('*', cors());
 

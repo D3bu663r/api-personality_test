@@ -1,32 +1,45 @@
 const status = require('http-status');
+const winston = require('../winston');
 const NotFound = require('../errors/not_found');
 const BadRequest = require('../errors/bad_request');
 const Unauthorized = require('../errors/unauthorized');
 
 function error_handler(err, req, res, next) {
+
+    let code = status.INTERNAL_SERVER_ERROR;
+    let message = err;
+
     if (err instanceof NotFound) {
-        return res.status(status.NOT_FOUND).json(err);
+        code = status.NOT_FOUND;
+        message = err;
     }
     if (err instanceof BadRequest) {
-        return res.status(status.BAD_REQUEST).json(err);
+        code = status.BAD_REQUEST;
+        message = err;
     }
     if (err instanceof Unauthorized) {
-        return res.status(status.UNAUTHORIZED).json(err);
+        code = status.UNAUTHORIZED;
+        message = err;
     }
     if (err.name === 'MongoError') {
-        return res.status(status.BAD_REQUEST).json(err.errmsg);
+        code = status.BAD_REQUEST;
+        message = err.errmsg;
     }
-    if (err.name === 'TokenExpiredError'){
-        return res.status(status.BAD_REQUEST).json('token de acesso expirado');
+    if (err.name === 'TokenExpiredError') {
+        code = status.BAD_REQUEST;
+        message = 'token de acesso expirado';
     }
-    if (err.name === 'JsonWebTokenError'){
-        return res.status(status.BAD_REQUEST).json('token de acesso inválido');
+    if (err.name === 'JsonWebTokenError') {
+        code = status.BAD_REQUEST;
+        message = 'token de acesso inválido';
     }
-    if (err.name === 'JsonSchemaValidation'){
-        return res.status(status.BAD_REQUEST).json('dados enviado inválido');
+    if (err.name === 'JsonSchemaValidation') {
+        code = status.BAD_REQUEST;
+        message = 'dados enviado inválido';
     }
 
-    res.status(status.INTERNAL_SERVER_ERROR).json(err);
+    res.status(code).json(message);
+    winston.error(message);
 }
 
 module.exports = error_handler;
