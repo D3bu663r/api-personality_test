@@ -14,23 +14,19 @@ const NotFound = require('../errors/not_found');
  *         required: true
  *         description: Categoria
  *         schema:
- *           $ref: '#/definitions/Category'
+ *           $ref: '#/definitions/CreateCategory'
  *     tags:
  *       - categorys
  *     security:
  *       - Bearer: []
  *     responses:
- *       200:
+ *       201:
  *         description: Categoria
  *         schema:
- *           $ref: '#/definitions/Category'
+ *           $ref: '#/definitions/ReadCategory'
  */
 function createCategory(req, res, next) {
-    const category = new Category({
-        _id: new mongoose.Types.ObjectId(),
-        name: req.body.name
-    });
-
+    const category = new Category(req.data);
     category.save()
         .then(function (category) {
             res.status(status.CREATED).json({
@@ -60,17 +56,15 @@ function createCategory(req, res, next) {
  *     responses:
  *       200:
  *         description: Categoria
+ *         schema:
+ *           $ref: '#/definitions/ReadCategory'
  *       400:
  *         description: Erro de sintaxe na solicitação.
  *       404:
  *         description: Categoria não encontrado
- *         schema:
- *           $ref: '#/definitions/Category'
  */
 function readCategory(req, res, next) {
-    const id = req.params.id;
-
-    Category.findById(id)
+    Category.findById(req.id)
         .then(function (category) {
             if (category) {
                 res.status(status.OK).json({
@@ -96,12 +90,14 @@ function readCategory(req, res, next) {
  *     responses:
  *       200:
  *         description: Categoria
+ *         schema:
+ *           type: "array"
+ *           items:
+ *             $ref: '#/definitions/ReadCategory'
  *       400:
  *         description: Erro de sintaxe na solicitação.
  *       404:
  *         description: Categoria não encontrado
- *         schema:
- *           $ref: '#/definitions/Category'
  */
 function listCategory(req, res, next) {
     Category.find({})
@@ -127,6 +123,12 @@ function listCategory(req, res, next) {
  *         type: string
  *         minlength: 24
  *         description: O id da categoria
+ *       - in: body
+ *         name: category
+ *         required: true
+ *         description: Categoria
+ *         schema:
+ *           $ref: '#/definitions/CreateCategory'
  *     tags:
  *       - categorys
  *     security:
@@ -134,21 +136,15 @@ function listCategory(req, res, next) {
  *     responses:
  *       200:
  *         description: Categoria
+ *         schema:
+ *           $ref: '#/definitions/ReadCategory'
  *       400:
  *         description: Erro de sintaxe na solicitação.
  *       404:
  *         description: Categoria não encontrado
- *         schema:
- *           $ref: '#/definitions/Category'
  */
 function updateCategory(req, res, next) {
-    const id = req.params.id;
-
-    const category = {
-        name: req.body.name
-    };
-
-    Category.findByIdAndUpdate(id, category, { new: true })
+    Category.findByIdAndUpdate(req.id, req.data, { new: true })
         .then(function (category) {
             if (category) {
                 res.status(status.OK).json({
@@ -182,17 +178,15 @@ function updateCategory(req, res, next) {
  *     responses:
  *       200:
  *         description: Categoria
+ *         schema:
+ *           $ref: '#/definitions/ReadCategory'
  *       400:
  *         description: Erro de sintaxe na solicitação.
  *       404:
  *         description: Categoria não encontrado
- *         schema:
- *           $ref: '#/definitions/Category'
  */
 function deleteCategory(req, res, next) {
-    const id = req.params.id;
-
-    Category.findByIdAndRemove(id)
+    Category.findByIdAndRemove(req.id)
         .then(function (category) {
             if (category) {
                 res.status(status.OK).json({

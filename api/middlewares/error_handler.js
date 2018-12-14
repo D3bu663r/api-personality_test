@@ -13,6 +13,18 @@ function error_handler(err, req, res, next) {
     if (err instanceof Unauthorized) {
         return res.status(status.UNAUTHORIZED).json(err);
     }
+    if (err.name === 'MongoError') {
+        return res.status(status.BAD_REQUEST).json(err.errmsg);
+    }
+    if (err.name === 'TokenExpiredError'){
+        return res.status(status.BAD_REQUEST).json('token de acesso expirado');
+    }
+    if (err.name === 'JsonWebTokenError'){
+        return res.status(status.BAD_REQUEST).json('token de acesso inválido');
+    }
+    if (err.name === 'JsonSchemaValidation'){
+        return res.status(status.BAD_REQUEST).json('dados enviado inválido');
+    }
 
     res.status(status.INTERNAL_SERVER_ERROR).json(err);
 }

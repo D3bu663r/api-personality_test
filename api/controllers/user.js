@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const status = require('http-status');
 const User = require('../models/user');
 const NotFound = require('../errors/not_found');
@@ -14,31 +13,28 @@ const NotFound = require('../errors/not_found');
  *         required: true
  *         description: Usuário
  *         schema:
- *           $ref: '#/definitions/User'
+ *           $ref: '#/definitions/CreateUser'
  *     tags:
  *       - users
  *     security:
  *       - Bearer: []
  *     responses:
- *       200:
+ *       201:
  *         description: usuário
  *         schema:
- *           $ref: '#/definitions/User'
+ *           $ref: '#/definitions/ReadUser'
+ *       400:
+ *         description: Erro de sintaxe na solicitação.
  */
 function createUser(req, res, next) {
-    const user = new User({
-        _id: new mongoose.Types.ObjectId(),
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password
-    });
-
+    const user = new User(req.data);
     user.save()
         .then(function (user) {
             res.status(status.CREATED).json({
                 id: user._id,
                 name: user.name,
-                email: user.email
+                email: user.email,
+                role: user.role
             });
         })
         .catch(next);
@@ -63,23 +59,22 @@ function createUser(req, res, next) {
  *     responses:
  *       200:
  *         description: Usuário
+ *         schema:
+ *           $ref: '#/definitions/ReadUser'
  *       400:
  *         description: Erro de sintaxe na solicitação.
  *       404:
  *         description: Usuário não encontrado
- *         schema:
- *           $ref: '#/definitions/User'
  */
 function readUser(req, res, next) {
-    const id = req.params.id;
-
-    User.findById(id)
+    User.findById(req.id)
         .then(function (user) {
             if (user) {
                 res.status(status.OK).json({
                     id: user._id,
                     name: user.name,
-                    email: user.email
+                    email: user.email,
+                    role: user.role
                 });
             }
             else {
@@ -100,12 +95,14 @@ function readUser(req, res, next) {
  *     responses:
  *       200:
  *         description: Usuário
+ *         schema:
+ *           type: "array"
+ *           items:
+ *             $ref: '#/definitions/ReadUser'
  *       400:
  *         description: Erro de sintaxe na solicitação.
  *       404:
  *         description: Usuário não encontrado
- *         schema:
- *           $ref: '#/definitions/User'
  */
 function listUser(req, res, next) {
     User.find({})
@@ -114,7 +111,8 @@ function listUser(req, res, next) {
                 return {
                     id: user._id,
                     name: user.name,
-                    email: user.email
+                    email: user.email,
+                    role: user.role
                 }
             }));
         }).catch(next);
@@ -132,6 +130,12 @@ function listUser(req, res, next) {
  *         type: string
  *         minlength: 24
  *         description: O id do usuário
+ *       - in: body
+ *         name: user
+ *         required: true
+ *         description: Usuário
+ *         schema:
+ *           $ref: '#/definitions/CreateUser'
  *     tags:
  *       - users
  *     security:
@@ -139,29 +143,22 @@ function listUser(req, res, next) {
  *     responses:
  *       200:
  *         description: Usuário
+ *         schema:
+ *           $ref: '#/definitions/ReadUser'
  *       400:
  *         description: Erro de sintaxe na solicitação.
  *       404:
  *         description: Usuário não encontrado
- *         schema:
- *           $ref: '#/definitions/User'
  */
 function updateUser(req, res, next) {
-    const id = req.params.id;
-
-    const user = {
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password
-    };
-
-    User.findByIdAndUpdate(id, user, { new: true })
+    User.findByIdAndUpdate(req.id, req.data, { new: true })
         .then(function (user) {
             if (user) {
                 res.status(status.OK).json({
                     id: user._id,
                     name: user.name,
-                    email: user.email
+                    email: user.email,
+                    role: user.role
                 });
             }
             else {
@@ -190,23 +187,22 @@ function updateUser(req, res, next) {
  *     responses:
  *       200:
  *         description: Usuário
+ *         schema:
+ *           $ref: '#/definitions/ReadUser'
  *       400:
  *         description: Erro de sintaxe na solicitação.
  *       404:
  *         description: Usuário não encontrado
- *         schema:
- *           $ref: '#/definitions/User'
  */
 function deleteUser(req, res, next) {
-    const id = req.params.id;
-
-    User.findByIdAndRemove(id)
+    User.findByIdAndRemove(req.id)
         .then(function (user) {
             if (user) {
                 res.status(200).json({
                     id: user._id,
                     name: user.name,
-                    email: user.email
+                    email: user.email,
+                    role: user.role
                 });
             }
             else {

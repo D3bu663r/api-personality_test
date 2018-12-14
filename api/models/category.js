@@ -1,21 +1,10 @@
 const mongoose = require('mongoose');
 
-/**
- * @swagger
- * definitions:
- *   Category:
- *     type: object
- *     required:
- *       - name
- *     properties:
- *       id:
- *         type: number
- *       name:
- *         type: string
- */
 const schema = new mongoose.Schema({
     _id: {
-        type: mongoose.Schema.Types.ObjectId
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        auto: true
     },
     name: {
         type: String,
