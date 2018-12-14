@@ -11,7 +11,7 @@ function login(data) {
         User.findOne({ email: data.email })
             .then(function (user) {
                 if (!user) reject(new NotFound('usuário não encontrado'));
-                if (!user.comparePassword(req.data.password)) reject(new BadRequest('senha incorreta.'));
+                if (!user.comparePassword(data.password)) reject(new BadRequest('senha incorreta.'));
 
                 let token = jwt.sign({
                     _id: user._id,
@@ -21,7 +21,7 @@ function login(data) {
                         expiresIn: 3600
                     });
 
-                return resolve(new Token(token, user));
+                resolve(new Token(token, user));
             })
             .catch(reject);
     });
@@ -42,7 +42,7 @@ function register(data) {
                         expiresIn: 3600
                     });
 
-                return resolve(new Token(token, user));
+                resolve(new Token(token, user));
             })
             .catch(function (err) { reject(err) });
     });
