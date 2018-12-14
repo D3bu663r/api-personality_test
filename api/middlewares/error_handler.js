@@ -1,5 +1,5 @@
 const status = require('http-status');
-const winston = require('../winston');
+const logger = require('../winston');
 const NotFound = require('../errors/not_found');
 const BadRequest = require('../errors/bad_request');
 const Unauthorized = require('../errors/unauthorized');
@@ -39,7 +39,7 @@ function error_handler(err, req, res, next) {
     }
 
     res.status(code).json(message);
-    winston.error(message);
+    logger.error(message);
 }
 
 module.exports = error_handler;
