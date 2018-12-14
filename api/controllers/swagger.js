@@ -8,7 +8,6 @@ const options = {
         info: {
             version: 'v1',
             title: 'Personality Test',
-            description: 'REST API with Swagger doc',
             termsOfService: 'None',
             contact: {
                 email: 'rafaelssouzaads@gmail.com'
