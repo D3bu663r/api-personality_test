@@ -1,10 +1,5 @@
-const jwt = require('jsonwebtoken');
 const status = require('http-status');
-const configs = require('../configs');
-const User = require('../models/user');
-const Token = require('../models/token');
-const NotFound = require('../errors/not_found');
-const BadRequest = require('../errors/bad_request');
+const service = require('../services/auth');
 
 /**
  * @swagger
@@ -31,20 +26,9 @@ const BadRequest = require('../errors/bad_request');
  *         description: Usuário não encontrado
  */
 function login(req, res, next) {
-    User.findOne({ email: req.data.email })
-        .then(function (user) {
-            if (!user) return next(new NotFound('usuário não encontrado'));
-            if (!user.comparePassword(req.data.password)) return next(new BadRequest('senha incorreta.'));
-
-            let token = jwt.sign({
-                _id: user._id,
-                name: user.name,
-                email: user.email
-            }, configs.secret_key, {
-                    expiresIn: 3600
-                });
-
-            return res.status(status.OK).json(new Token(token, user));
+    service.login(req.data)
+        .then(function (token) {
+            return res.status(status.OK).json(token);
         })
         .catch(next);
 }
@@ -74,19 +58,9 @@ function login(req, res, next) {
  *         description: Usuário não encontrado
  */
 function register(req, res, next) {
-    const user = new User(req.data);
-    user.save()
-        .then(function (user) {
-
-            let token = jwt.sign({
-                _id: user._id,
-                name: user.name,
-                email: user.email
-            }, configs.secret_key, {
-                    expiresIn: 3600
-                });
-
-            return res.status(status.OK).json(new Token(token, user));
+    service.register(req.data)
+        .then(function (token) {
+            return res.status(status.OK).json(token);
         })
         .catch(next);
 }

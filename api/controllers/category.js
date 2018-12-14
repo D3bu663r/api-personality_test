@@ -1,7 +1,5 @@
-const mongoose = require('mongoose');
 const status = require('http-status');
-const Category = require('../models/category');
-const NotFound = require('../errors/not_found');
+const service = require('../services/category');
 
 /**
  * @swagger
@@ -26,13 +24,9 @@ const NotFound = require('../errors/not_found');
  *           $ref: '#/definitions/ReadCategory'
  */
 function createCategory(req, res, next) {
-    const category = new Category(req.data);
-    category.save()
+    service.createCategory(req.data)
         .then(function (category) {
-            res.status(status.CREATED).json({
-                id: category._id,
-                name: category.name
-            });
+            res.status(status.CREATED).json(category);
         })
         .catch(next);
 }
@@ -64,17 +58,9 @@ function createCategory(req, res, next) {
  *         description: Categoria não encontrado
  */
 function readCategory(req, res, next) {
-    Category.findById(req.id)
+    service.createCategory(req.id)
         .then(function (category) {
-            if (category) {
-                res.status(status.OK).json({
-                    id: category._id,
-                    name: category.name
-                });
-            }
-            else {
-                next(new NotFound("Categoria não encontrada"));
-            }
+            res.status(status.OK).json(category);
         }).catch(next);
 }
 
@@ -100,14 +86,9 @@ function readCategory(req, res, next) {
  *         description: Categoria não encontrado
  */
 function listCategory(req, res, next) {
-    Category.find({})
+    service.listCategory()
         .then(function (categorys) {
-            res.status(status.OK).json(categorys.map(function to(category) {
-                return {
-                    id: category._id,
-                    name: category.name
-                }
-            }));
+            res.status(status.OK).json(categorys);
         }).catch(next);
 }
 
@@ -144,17 +125,9 @@ function listCategory(req, res, next) {
  *         description: Categoria não encontrado
  */
 function updateCategory(req, res, next) {
-    Category.findByIdAndUpdate(req.id, req.data, { new: true })
+    service.updateCategory(req.id, req.data)
         .then(function (category) {
-            if (category) {
-                res.status(status.OK).json({
-                    id: category._id,
-                    name: category.name
-                });
-            }
-            else {
-                next(new NotFound("Categoria não encontrada"));
-            }
+            res.status(status.OK).json(category);
         })
         .catch(next);
 }
@@ -186,17 +159,9 @@ function updateCategory(req, res, next) {
  *         description: Categoria não encontrado
  */
 function deleteCategory(req, res, next) {
-    Category.findByIdAndRemove(req.id)
+    service.deleteCategory(req.id)
         .then(function (category) {
-            if (category) {
-                res.status(status.OK).json({
-                    id: category._id,
-                    name: category.name
-                });
-            }
-            else {
-                next(new NotFound("Categoria não encontrada"));
-            }
+            res.status(status.OK).json(category);
         })
         .catch(next);
 }

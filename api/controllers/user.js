@@ -1,6 +1,5 @@
 const status = require('http-status');
-const User = require('../models/user');
-const NotFound = require('../errors/not_found');
+const service = require('../services/user');
 
 /**
  * @swagger
@@ -27,15 +26,9 @@ const NotFound = require('../errors/not_found');
  *         description: Erro de sintaxe na solicitação.
  */
 function createUser(req, res, next) {
-    const user = new User(req.data);
-    user.save()
+    service.createUser(req.data)
         .then(function (user) {
-            res.status(status.CREATED).json({
-                id: user._id,
-                name: user.name,
-                email: user.email,
-                role: user.role
-            });
+            res.status(status.CREATED).json(user);
         })
         .catch(next);
 }
@@ -67,19 +60,9 @@ function createUser(req, res, next) {
  *         description: Usuário não encontrado
  */
 function readUser(req, res, next) {
-    User.findById(req.id)
+    service.readUser(req.id, req.data)
         .then(function (user) {
-            if (user) {
-                res.status(status.OK).json({
-                    id: user._id,
-                    name: user.name,
-                    email: user.email,
-                    role: user.role
-                });
-            }
-            else {
-                next(new NotFound("Usuário não encontrado"));
-            }
+            res.status(status.OK).json(user);
         }).catch(next);
 }
 
@@ -105,16 +88,9 @@ function readUser(req, res, next) {
  *         description: Usuário não encontrado
  */
 function listUser(req, res, next) {
-    User.find({})
+    service.listUser()
         .then(function (users) {
-            res.status(status.OK).json(users.map(function to(user) {
-                return {
-                    id: user._id,
-                    name: user.name,
-                    email: user.email,
-                    role: user.role
-                }
-            }));
+            res.status(status.OK).json(users);
         }).catch(next);
 }
 
@@ -151,19 +127,9 @@ function listUser(req, res, next) {
  *         description: Usuário não encontrado
  */
 function updateUser(req, res, next) {
-    User.findByIdAndUpdate(req.id, req.data, { new: true })
+    service.updateUser(req.id, req.data)
         .then(function (user) {
-            if (user) {
-                res.status(status.OK).json({
-                    id: user._id,
-                    name: user.name,
-                    email: user.email,
-                    role: user.role
-                });
-            }
-            else {
-                next(new NotFound("Usuário não encontrado"));
-            }
+            res.status(status.OK).json(user);
         })
         .catch(next);
 }
@@ -195,19 +161,9 @@ function updateUser(req, res, next) {
  *         description: Usuário não encontrado
  */
 function deleteUser(req, res, next) {
-    User.findByIdAndRemove(req.id)
+    service.deleteUser(req.id)
         .then(function (user) {
-            if (user) {
-                res.status(200).json({
-                    id: user._id,
-                    name: user.name,
-                    email: user.email,
-                    role: user.role
-                });
-            }
-            else {
-                next(new NotFound("Usuário não encontrado"));
-            }
+            res.status(200).json(user);
         })
         .catch(next);
 }
