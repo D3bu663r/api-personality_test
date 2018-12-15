@@ -22,6 +22,7 @@ function isAuthenticated(roles = []) {
 
             User.findById(user._id).then(function (user) {
                 if (!user || !roles.includes(user.role)) return next(new Unauthorized('Usuário não autorizado'));
+                req.user = user;
                 next();
             }).catch(next);
 

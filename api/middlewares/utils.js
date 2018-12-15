@@ -12,8 +12,8 @@ function isValidId(req, res, next) {
     next();
 }
 
-function isValidBody(shema, dependencies = []) {
-    return validate({ body: shema }, dependencies);
+function isValidBody(schema, dependencies = []) {
+    return validate({ body: schema }, dependencies);
 }
 
 function fromBodyToData(req, res, next) {
