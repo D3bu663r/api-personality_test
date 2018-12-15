@@ -3,7 +3,7 @@ const auth = require('./middlewares/auth');
 const util = require('./middlewares/utils');
 
 const swaggerController = require('./controllers/swagger');
-router.use('/docs', swaggerController.router);
+router.use(['/', '/docs'], swaggerController.router);
 
 const authController = require('./controllers/auth');
 const loginShema = require('./controllers/dtos/auth/login');
