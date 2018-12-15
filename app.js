@@ -7,7 +7,7 @@ const error_handler = require('./api/middlewares/error_handler');
 
 const app = express();
 
-app.use(morgan('tiny', { stream: winston.stream }));
+app.use(morgan('tiny', { stream: logger.stream }));
 
 app.use('*', cors());
 
