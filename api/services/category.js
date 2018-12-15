@@ -66,9 +66,10 @@ function updateCategory(id, data) {
 
 function deleteCategory(id) {
     return new Promise(function (resolve, reject) {
-        Category.findByIdAndRemove(id)
+        Category.findByIdAndRemove(id).exec()
             .then(function (category) {
                 if (category) {
+                    category.remove();
                     resolve({
                         id: category._id,
                         name: category.name
