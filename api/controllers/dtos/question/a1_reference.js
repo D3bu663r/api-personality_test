@@ -1,7 +1,7 @@
 /**
  * @swagger
  * definitions:
- *   CreateQuestion:
+ *   ReferenceQuestion:
  *     type: object
  *     required:
  *       - description
@@ -21,11 +21,9 @@
  *           type: "array"
  *           items:
  *             type: string
- *       condition:
- *           $ref: '#/definitions/ConditionQuestion'
  */
 const schema = {
-    id: '/CreateQuestion',
+    id: '/ReferenceQuestion',
     type: 'object',
     properties: {
         description: {
@@ -47,12 +45,8 @@ const schema = {
         options: {
             type: [String],
             required: true
-        },
-        condition: {
-            $ref: '/ConditionQuestion'
         }
     },
     additionalProperties: false
 }
-
 module.exports = schema;

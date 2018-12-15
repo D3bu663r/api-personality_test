@@ -8,7 +8,11 @@ function createQuestion(data) {
             .then(function (question) {
                 resolve({
                     id: question._id,
-                    name: question.name
+                    description: question.description,
+                    category: question.category,
+                    type: question.type,
+                    options: question.options,
+                    condition: question.condition
                 });
             })
             .catch(reject);
@@ -22,7 +26,10 @@ function readQuestion(id) {
                 if (question) {
                     resolve({
                         id: question._id,
-                        name: question.name
+                        description: question.description,
+                        category: question.category,
+                        type: question.type,
+                        options: question.options
                     });
                 }
                 else {
@@ -39,7 +46,10 @@ function listQuestion() {
                 resolve(questions.map(function to(question) {
                     return {
                         id: question._id,
-                        name: question.name
+                        description: question.description,
+                        category: question.category,
+                        type: question.type,
+                        options: question.options
                     }
                 }));
             }).catch(reject);
@@ -53,7 +63,10 @@ function updateQuestion(id, data) {
                 if (question) {
                     resolve({
                         id: question._id,
-                        name: question.name
+                        description: question.description,
+                        category: question.category,
+                        type: question.type,
+                        options: question.options
                     });
                 }
                 else {
@@ -71,7 +84,10 @@ function deleteQuestion(id) {
                 if (question) {
                     resolve({
                         id: question._id,
-                        name: question.name
+                        description: question.description,
+                        category: question.category,
+                        type: question.type,
+                        options: question.options
                     });
                 }
                 else {

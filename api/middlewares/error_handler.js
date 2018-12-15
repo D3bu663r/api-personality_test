@@ -25,6 +25,10 @@ function error_handler(err, req, res, next) {
         code = status.BAD_REQUEST;
         message = err.errmsg;
     }
+    if (err.name === 'ValidationError') {
+        code = status.BAD_REQUEST;
+        message = err.message;
+    }
     if (err.name === 'TokenExpiredError') {
         code = status.BAD_REQUEST;
         message = 'token de acesso expirado';
