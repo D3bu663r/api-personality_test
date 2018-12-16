@@ -84,14 +84,13 @@ describe('user resource tests', function () {
 
     describe('#delete user', function () {
         it('should delete the user', function (done) {
-            createUser.name = 'Test Update'
             request(global.app)
-                .put(`/users/${user.id}`).send(createUser)
+                .delete(`/users/${user.id}`)
                 .set('Authorization', `${global.token.token_type} ${global.token.access_token}`)
                 .expect('Content-Type', /json/)
                 .expect(200)
                 .end(function (err, res) {
-                    user = res.body;
+                    const user = res.body;
                     expect(user.name).to.equal(createUser.name);
                     expect(user.email).to.equal(createUser.email);
                     expect(user.role).to.equal(createUser.role);

@@ -29,7 +29,8 @@ function readQuestion(id) {
                         description: question.description,
                         category: question.category,
                         type: question.type,
-                        options: question.options
+                        options: question.options,
+                        condition: question.condition
                     });
                 }
                 else {
@@ -49,7 +50,8 @@ function listQuestion() {
                         description: question.description,
                         category: question.category,
                         type: question.type,
-                        options: question.options
+                        options: question.options,
+                        condition: question.condition
                     }
                 }));
             }).catch(reject);

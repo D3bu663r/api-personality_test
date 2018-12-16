@@ -23,7 +23,7 @@ const schema = {
     properties: {
         name: {
             type: 'string',
-            required: false
+            required: true
         },
         email: {
             type: 'string',

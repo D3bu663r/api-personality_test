@@ -1,25 +1,36 @@
 /**
  * @swagger
  * definitions:
- *   DetailUser:
+ *   UpdateUser:
  *     type: object
+ *     required:
+ *       - name
+ *       - password
  *     properties:
  *       name:
  *         type: string
- *       email:
+ *       password:
  *         type: string
+ *       role:
+ *         type: string
+ *         enum: [admin, user]
+ *         default: user
  */
 const schema = {
-    id: '/DetailUser',
     type: 'object',
     properties: {
         name: {
             type: 'string',
             required: true
         },
-        email: {
+        password: {
             type: 'string',
             required: true
+        },
+        role: {
+            type: 'string',
+            required: false,
+            enum: ['admin', 'user']
         }
     },
     additionalProperties: false

@@ -58,7 +58,7 @@ function createQuestion(req, res, next) {
  *         description: Pergunta não encontrado
  */
 function readQuestion(req, res, next) {
-    service.createQuestion(req.id)
+    service.readQuestion(req.id)
         .then(function (question) {
             res.status(status.OK).json(question);
         }).catch(next);

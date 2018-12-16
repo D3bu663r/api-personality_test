@@ -13,13 +13,14 @@
  *       role:
  *         type: string
  *         enum: [admin, user]
+ *         default: user
  */
 const schema = {
     type: 'object',
     properties: {
         id: {
             type: 'string',
-            required: false
+            required: true
         },
         name: {
             type: 'string',

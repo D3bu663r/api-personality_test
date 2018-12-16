@@ -111,7 +111,7 @@ function listUser(req, res, next) {
  *         required: true
  *         description: Usuário
  *         schema:
- *           $ref: '#/definitions/CreateUser'
+ *           $ref: '#/definitions/UpdateUser'
  *     tags:
  *       - users
  *     security:

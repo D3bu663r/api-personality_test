@@ -18,9 +18,7 @@
  *         enum: [single_choice, single_choice_conditional, number_range]
  *         default: single_choice
  *       options:
- *           type: "array"
- *           items:
- *             type: string
+ *           type: object
  *       condition:
  *           $ref: '#/definitions/ConditionQuestion'
  */
@@ -45,7 +43,7 @@ const schema = {
             default: 'single_choice'
         },
         options: {
-            type: [String],
+            type: Object,
             required: true
         },
         condition: {

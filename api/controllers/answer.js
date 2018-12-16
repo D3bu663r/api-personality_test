@@ -62,7 +62,7 @@ function createAnswer(req, res, next) {
  *         description: Resposta não encontrado
  */
 function readAnswer(req, res, next) {
-    service.createAnswer(req.id)
+    service.readAnswer(req.id)
         .then(function (answer) {
             res.status(status.OK).json(answer);
         }).catch(next);
