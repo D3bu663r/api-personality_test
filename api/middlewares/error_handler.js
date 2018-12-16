@@ -42,7 +42,7 @@ function error_handler(err, req, res, next) {
         message = 'dados enviado inválido';
     }
 
-    res.status(code).json(message);
+    res.status(code).send(message);
     logger.error(message);
 }
 
