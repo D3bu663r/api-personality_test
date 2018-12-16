@@ -11,15 +11,15 @@ function error_handler(err, req, res, next) {
 
     if (err instanceof NotFound) {
         code = status.NOT_FOUND;
-        message = err;
+        message = err.message;
     }
     if (err instanceof BadRequest) {
         code = status.BAD_REQUEST;
-        message = err;
+        message = err.message;
     }
     if (err instanceof Unauthorized) {
         code = status.UNAUTHORIZED;
-        message = err;
+        message = err.message;
     }
     if (err.name === 'MongoError') {
         code = status.BAD_REQUEST;
@@ -42,7 +42,7 @@ function error_handler(err, req, res, next) {
         message = 'dados enviado inválido';
     }
 
-    res.status(code).send(message);
+    res.status(code).json(message);
     logger.error(message);
 }
 
