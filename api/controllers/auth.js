@@ -60,7 +60,7 @@ function login(req, res, next) {
 function register(req, res, next) {
     service.register(req.data)
         .then(function (token) {
-            return res.status(status.OK).json(token);
+            return res.status(status.CREATED).json(token);
         })
         .catch(next);
 }

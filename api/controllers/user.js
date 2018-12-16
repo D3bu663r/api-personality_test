@@ -163,7 +163,7 @@ function updateUser(req, res, next) {
 function deleteUser(req, res, next) {
     service.deleteUser(req.id)
         .then(function (user) {
-            res.status(200).json(user);
+            res.status(status.OK).json(user);
         })
         .catch(next);
 }

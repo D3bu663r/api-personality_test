@@ -16,7 +16,8 @@ const logger = createLogger({
 
 logger.stream = {
     write: function (message, encoding) {
-        logger.info(message);
+        if (process.env.NODE_ENV !== 'test')
+            logger.info(message);
     }
 }
 

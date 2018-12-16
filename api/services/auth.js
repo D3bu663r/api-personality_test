@@ -12,19 +12,22 @@ function login(data) {
             .then(function (user) {
                 if (!user) reject(new NotFound('usuário não encontrado'));
                 if (!user.comparePassword(data.password)) reject(new BadRequest('senha incorreta.'));
-
-                let token = jwt.sign({
-                    _id: user._id,
-                    name: user.name,
-                    email: user.email
-                }, configs.secret_key, {
-                        expiresIn: 3600
-                    });
-
-                resolve(new Token(token, user));
+                resolve(generateToken(user));
             })
             .catch(reject);
     });
+}
+
+function generateToken(user) {
+    let token = jwt.sign({
+        _id: user._id,
+        name: user.name,
+        email: user.email
+    }, configs.secret_key, {
+            expiresIn: 3600
+        });
+
+    return new Token(token, user);
 }
 
 
@@ -33,16 +36,7 @@ function register(data) {
         const user = new User(data);
         user.save()
             .then(function (user) {
-
-                let token = jwt.sign({
-                    _id: user._id,
-                    name: user.name,
-                    email: user.email
-                }, configs.secret_key, {
-                        expiresIn: 3600
-                    });
-
-                resolve(new Token(token, user));
+                resolve(generateToken(user));
             })
             .catch(function (err) { reject(err) });
     });
@@ -50,5 +44,6 @@ function register(data) {
 
 module.exports = {
     login,
-    register
+    register,
+    generateToken
 }
