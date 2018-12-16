@@ -5,7 +5,6 @@
  *     type: object
  *     required:
  *       - name
- *       - password
  *     properties:
  *       name:
  *         type: string
@@ -25,7 +24,7 @@ const schema = {
         },
         password: {
             type: 'string',
-            required: true
+            required: false
         },
         role: {
             type: 'string',

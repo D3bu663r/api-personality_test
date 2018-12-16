@@ -70,7 +70,7 @@ describe('user resource tests', function () {
         it('should update the user', function (done) {
             createUser.name = 'Test Update'
             request(global.app)
-                .put(`/users/${user.id}`).send(createUser)
+                .put(`/users/${user.id}`).send({ name: createUser.name })
                 .set('Authorization', `${global.token.token_type} ${global.token.access_token}`)
                 .expect('Content-Type', /json/)
                 .expect(200)
