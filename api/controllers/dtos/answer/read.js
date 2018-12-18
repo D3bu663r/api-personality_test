@@ -5,14 +5,18 @@
  *     type: object
  *     required:
  *       - user
- *       - question
+ *       - question_id
+ *       - question_description
+ *       - answer
  *     properties:
- *       id:
- *         type: string
  *       user:
  *           $ref: '#/definitions/DetailUser'
- *       question:
- *           $ref: '#/definitions/ReadQuestion'
+ *       question_id:
+ *         type: string
+ *       question_description:
+ *         type: string
+ *       answer:
+ *         type: string
  */
 const schema = {
     id: '/ReadAnswer',
@@ -21,8 +25,17 @@ const schema = {
         user: {
             $ref: '/DetailUser'
         },
-        question: {
-            $ref: '/CreateQuestion'
+        question_id: {
+            type: String,
+            required: true
+        },
+        question_description: {
+            type: String,
+            required: true
+        },
+        answer: {
+            type: String,
+            required: true
         }
     },
     additionalProperties: false

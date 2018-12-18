@@ -47,11 +47,11 @@ function listQuestion(query = {}) {
             .then(function (questions) {
                 if (query || query.isAnswered === 'false') {
                     Answer.find({ 'user.email': query.email })
-                        .select('question.description')
-                        .then(function (answers) {
-                            const check = answers.map((answer) => answer.question.description);
+                        .select('-_id question._id')
+                        .then(function (answersIds) {
+                            let check = answersIds.map((answer) => answer.question._id);
                             resolve(toMapQuestions(questions.filter(function (question) {
-                                return !check.includes(question.description);
+                                return !check.includes(`${question._id}`);
                             })));
                         }).catch(reject);
                 } else {
