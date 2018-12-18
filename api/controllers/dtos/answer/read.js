@@ -12,10 +12,10 @@
  *       user:
  *           $ref: '#/definitions/DetailUser'
  *       question:
- *           $ref: '#/definitions/CreateQuestion'
+ *           $ref: '#/definitions/ReadQuestion'
  */
 const schema = {
-    id: '/CreateAnswer',
+    id: '/ReadAnswer',
     type: 'object',
     properties: {
         user: {

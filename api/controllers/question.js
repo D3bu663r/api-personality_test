@@ -69,6 +69,14 @@ function readQuestion(req, res, next) {
  * /questions:
  *   get:
  *     summary: Listar todos as perguntas
+ *     parameters:
+ *       - in: query
+ *         name: isAnswered
+ *         required: false
+ *         type: boolean
+ *         allowEmptyValue: false 
+ *         default: false
+ *         description: trazer perguntas já respondidas
  *     tags:
  *       - questions
  *     security:
@@ -86,7 +94,8 @@ function readQuestion(req, res, next) {
  *         description: Pergunta não encontrado
  */
 function listQuestion(req, res, next) {
-    service.listQuestion()
+    req.query.email = req.user.email;
+    service.listQuestion(req.query)
         .then(function (questions) {
             res.status(status.OK).json(questions);
         }).catch(next);

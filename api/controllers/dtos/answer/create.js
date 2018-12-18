@@ -4,7 +4,9 @@
  *   CreateAnswer:
  *     type: object
  *     required:
- *       - question
+ *       - question_id
+ *       - question_description
+ *       - answer
  *     properties:
  *       question:
  *           $ref: '#/definitions/CreateQuestion'
