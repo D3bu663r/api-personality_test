@@ -45,7 +45,7 @@ function listQuestion(query = {}) {
     return new Promise(function (resolve, reject) {
         Question.find({})
             .then(function (questions) {
-                if (query.isAnswered === 'false') {
+                if (query || query.isAnswered === 'false') {
                     Answer.find({ 'user.email': query.email })
                         .select('question.description')
                         .then(function (answers) {
