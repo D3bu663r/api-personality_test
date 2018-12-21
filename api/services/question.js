@@ -1,4 +1,5 @@
 const Question = require('../models/question');
+const Answer = require('../models/answer');
 const NotFound = require('../errors/not_found');
 
 function createQuestion(data) {
@@ -40,20 +41,22 @@ function readQuestion(id) {
     });
 }
 
-function listQuestion() {
+function listQuestion(query = {}) {
     return new Promise(function (resolve, reject) {
         Question.find({})
             .then(function (questions) {
-                resolve(questions.map(function to(question) {
-                    return {
-                        id: question._id,
-                        description: question.description,
-                        category: question.category,
-                        type: question.type,
-                        options: question.options,
-                        condition: question.condition
-                    }
-                }));
+                if (query || query.isAnswered === 'false') {
+                    Answer.find({ 'user.email': query.email })
+                        .select('-_id question._id')
+                        .then(function (answersIds) {
+                            let check = answersIds.map((answer) => answer.question._id);
+                            resolve(toMapQuestions(questions.filter(function (question) {
+                                return !check.includes(`${question._id}`);
+                            })));
+                        }).catch(reject);
+                } else {
+                    resolve(toMapQuestions(questions));
+                }
             }).catch(reject);
     });
 }
@@ -98,6 +101,20 @@ function deleteQuestion(id) {
             })
             .catch(reject);
     });
+}
+
+function toMapQuestions(questions) {
+    if (!questions) return [];
+    return questions.map(function to(question) {
+        return {
+            id: question._id,
+            description: question.description,
+            category: question.category,
+            type: question.type,
+            options: question.options,
+            condition: question.condition
+        }
+    })
 }
 
 module.exports = {

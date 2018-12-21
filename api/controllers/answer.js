@@ -26,7 +26,11 @@ const service = require('../services/answer');
 function createAnswer(req, res, next) {
     const data = {
         user: req.user,
-        question: req.data.question
+        question: {
+            _id: req.data.question_id,
+            description: req.data.question_description,
+            answer: req.data.answer,
+        }
     }
     service.createAnswer(data)
         .then(function (answer) {
