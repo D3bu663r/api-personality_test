@@ -133,7 +133,14 @@ function listAnswer(req, res, next) {
  *         description: Resposta não encontrado
  */
 function updateAnswer(req, res, next) {
-    service.updateAnswer(req.id, req.data)
+    const data = {
+        question: {
+            _id: req.data.question_id,
+            description: req.data.question_description,
+            answer: req.data.answer,
+        }
+    }
+    service.updateAnswer(req.id, data)
         .then(function (answer) {
             res.status(status.OK).json(answer);
         })

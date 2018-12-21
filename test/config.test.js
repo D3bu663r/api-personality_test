@@ -4,6 +4,7 @@ dotenv.config();
 global.app = require('../app');
 const database = require('../api/database');
 const serviceUser = require('../api/services/user');
+const serviceQuestion = require('../api/services/question');
 const serviceAuth = require('../api/services/auth');
 let server;
 
@@ -27,7 +28,23 @@ before(function (done) {
                             email: data.email
                         }
                         global.token = serviceAuth.generateToken(user);
-                        done();
+
+                        let createQuestion = {
+                            description: "What is your gender?",
+                            category: "hard_fact",
+                            type: "single_choice",
+                            options: [
+                                "male",
+                                "female",
+                                "other"
+                            ]
+                        };
+
+                        serviceQuestion.createQuestion(createQuestion)
+                            .then(function (question) {
+                                global.question = question;
+                                done();
+                            }).catch(done);
                     }).catch(done);
             });
         }).catch(done);

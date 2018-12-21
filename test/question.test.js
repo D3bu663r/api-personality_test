@@ -8,29 +8,14 @@ chai.use(require('chai-things'));
 describe('question resource tests', function () {
 
     let createQuestion = {
-        description: "How important is the age of your partner to you?",
+        description: "What is your gender?",
         category: "hard_fact",
-        type: "single_choice_conditional",
+        type: "single_choice",
         options: [
-            "not important",
-            "important",
-            "very important"
-        ],
-        condition: {
-            predicate: "exactEquals",
-            values: [
-                "very important"
-            ],
-            if_positive: {
-                description: "What age should your potential partner be?",
-                category: "hard_fact",
-                type: "number_range",
-                options: {
-                    from: 18,
-                    to: 140
-                }
-            }
-        }
+            "male",
+            "female",
+            "other"
+        ]
     };
 
     let question = {};
